@@ -1,5 +1,6 @@
 from clickhouse_driver import Client
 
+# Queries for databases
 def showDatabases():
     # Return databases in clickhouse server
     client = Client('10.0.0.22')
@@ -13,6 +14,7 @@ def dropDatabase():
     client.execute(query)
     print("Database is dropped successfully")
 
+# Queries for tables
 def showTables():
     # Return tables in clickhouse server
     client = Client('10.0.0.22')
