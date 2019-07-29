@@ -29,15 +29,15 @@ class ClickhouseClient:
     def createTable(self,tableName):
         # Create a new table in clickhouse server
         client = Client(self.ipAddress)
-        query = 'CREATE TABLE {} (user_id String, user_name String, tweet_id String, text String) ENGINE = Memory'.format(tableName)
+        query = 'CREATE TABLE {} (source String, user_id String, user_name String, text_id String, text String) ENGINE = Memory'.format(tableName)
         client.execute(query)
         print("Table is created successfully")
 
-    def insertData(self,tableName,userID,userName,tweetID,text):
+    def insertData(self,tableName,source,userID,userName,textID,text):
         # Inserting the data into the table
         client = Client(self.ipAddress)
-        query = 'INSERT INTO {} (user_id,user_name,tweet_id,text) VALUES'.format(tableName)
-        client.execute(query,[{'user_id':userID,'user_name':userName,'tweet_id':tweetID,'text':text}])
+        query = 'INSERT INTO {} (source,user_id,user_name,text_id,text) VALUES'.format(tableName)
+        client.execute(query,[{'source':source,'user_id':userID,'user_name':userName,'text_id':textID,'text':text}])
         print('Record is added successfully')
 
     def selectData(self,tableName):
