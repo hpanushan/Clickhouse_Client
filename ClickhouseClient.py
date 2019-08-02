@@ -6,16 +6,23 @@ class ClickhouseClient:
         self.ipAddress = ipAddress
 
     # Queries for databases
+    def createDatabase(self,dbName):
+        # Create database in clickhouse server
+        client = Client(self.ipAddress)
+        query = "CREATE DATABASE {}".format(dbName)
+        client.execute(query)
+        print("Database is created successfully")
+
     def showDatabases(self):
         # Return databases in clickhouse server
         client = Client(self.ipAddress)
         query = "SHOW DATABASES;"
         return client.execute(query)
 
-    def dropDatabase(self):
+    def dropDatabase(self,dbName):
         # Drop the database
         client = Client(self.ipAddress)
-        query = "DROP DATABASE system;"
+        query = "DROP DATABASE IF EXISTS {};".format(dbName)
         client.execute(query)
         print("Database is dropped successfully")
 

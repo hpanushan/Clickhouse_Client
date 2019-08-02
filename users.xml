@@ -16,9 +16,12 @@
                   with minimum number of different symbols between replica's hostname and local hostname
                   (Hamming distance).
                  in_order - first live replica is chosen in specified order.
+                 first_or_random - if first replica one has higher number of errors, pick a random one from replicas with minimum number of errors.
             -->
             <load_balancing>random</load_balancing>
         </default>
+
+        <!-- Profile that allows only read queries. -->
         <readonly>
             <readonly>1</readonly>
         </readonly>
@@ -35,8 +38,10 @@
                  Password could be empty.
 
                  If you want to specify SHA256, place it in 'password_sha256_hex' element.
+                 Example: <password_sha256_hex>65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5</password_sha256_hex>
 
                  How to generate decent password:
+                 Execute: PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'
                  In first line will be password and in second - corresponding SHA256.
             -->
             <password></password>
@@ -57,6 +62,7 @@
                      To check access, DNS query is performed, and all received addresses compared to peer address.
                  <host_regexp> Regular expression for host names. Example, ^server\d\d-\d\d-\d\.yandex\.ru$
                      To check access, DNS PTR query is performed for peer address and then regexp is applied.
+                     Then, for result of PTR query, another DNS query is performed and all received addresses compared to peer address.
                      Strongly recommended that regexp is ends with $
                  All results of DNS requests are cached till server restart.
             -->
@@ -122,4 +128,3 @@
         </default>
     </quotas>
 </yandex>
-                                                                   
