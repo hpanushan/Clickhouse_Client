@@ -27,37 +27,38 @@ class ClickhouseClient:
         print("Database is dropped successfully")
 
     # Queries for tables
-    def showTables(self):
-        # Return tables in clickhouse server
+    def showTables(self,dbName):
+        # Return tables in specific database
         client = Client(self.ipAddress)
-        query = "SHOW TABLES;"
+        query = 'SHOW TABLES FROM {};'.format(dbName)
         return client.execute(query)
 
-    def createTable(self,tableName):
+    def createTable(self,dbName,tableName):
         # Create a new table in clickhouse server
         client = Client(self.ipAddress)
-        query = 'CREATE TABLE {} (source String, user_id String, user_name String, text_id String, text String) ENGINE = Memory'.format(tableName)
+        query = 'CREATE TABLE {}.{} (user_id String, user_name String, text_id String, text String) ENGINE = Memory'.format(dbName,tableName)
         client.execute(query)
         print("Table is created successfully")
 
-    def insertData(self,tableName,source,userID,userName,textID,text):
+    def insertData(self,dbName,tableName,userID,userName,textID,text):
         # Inserting the data into the table
         client = Client(self.ipAddress)
-        query = 'INSERT INTO {} (source,user_id,user_name,text_id,text) VALUES'.format(tableName)
-        client.execute(query,[{'source':source,'user_id':userID,'user_name':userName,'text_id':textID,'text':text}])
+        query = 'INSERT INTO {}.{} (user_id,user_name,text_id,text) VALUES'.format(dbName,tableName)
+        client.execute(query,[{'user_id':userID,'user_name':userName,'text_id':textID,'text':text}])
         print('Record is added successfully')
 
-    def selectData(self,tableName):
+    def selectData(self,dbName,tableName):
         # Retrive table data
         client = Client(self.ipAddress)
-        query = 'SELECT * FROM {};'.format(tableName)
+        query = 'SELECT * FROM {}.{};'.format(dbName,tableName)
         return client.execute(query)
 
-    def dropTable(self,tableName):
+    def dropTable(self,dbName,tableName):
         # Drop the table
         client = Client(self.ipAddress)
-        query = 'DROP TABLE IF EXISTS {};'.format(tableName)
+        query = 'DROP TABLE IF EXISTS {}.{};'.format(dbName,tableName)
         client.execute(query)
         print("Table is dropped successfully")
 
+    
 
