@@ -60,5 +60,12 @@ class ClickhouseClient:
         client.execute(query)
         print("Table is dropped successfully")
 
+    def addColumn(self,dbName,tableName,columnName,dataType):
+        # Add column to existing table
+        client = Client(self.ipAddress)
+        query = 'ALTER TABLE {}.{} ADD {} {};'.format(dbName,tableName,columnName,dataType)
+        client.execute(query)
+        print("Table column is added successfully")
+
     
 
