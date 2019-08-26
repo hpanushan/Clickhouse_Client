@@ -36,6 +36,9 @@ class ClickhouseClient:
     def createTable(self,dbName,tableName):
         # Create a new table in clickhouse server
         client = Client(self.ipAddress)
+        # Drop the table if table name already exists
+        self.dropTable(dbName,tableName)
+        # Create the table
         query = 'CREATE TABLE {}.{} (user_id String, user_name String, text_id String, text String) ENGINE = Memory'.format(dbName,tableName)
         client.execute(query)
         print("Table is created successfully")
