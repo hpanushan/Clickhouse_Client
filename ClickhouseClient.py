@@ -39,7 +39,7 @@ class ClickhouseClient:
         # Drop the table if table name already exists
         self.dropTable(dbName,tableName)
         # Create the table
-        query = 'CREATE TABLE {}.{} (user_id String, user_name String, text_id String, text String) ENGINE = Memory'.format(dbName,tableName)
+        query = 'CREATE TABLE {}.{} (date Date DEFAULT today(), user_id String, user_name String, text_id String, text String) ENGINE = MergeTree(date, (date), 8192);'.format(dbName,tableName)
         client.execute(query)
         print("Table is created successfully")
 
@@ -63,12 +63,26 @@ class ClickhouseClient:
         client.execute(query)
         print("Table is dropped successfully")
 
+    # Additional Functions
     def addColumn(self,dbName,tableName,columnName,dataType):
         # Add column to existing table
         client = Client(self.ipAddress)
-        query = 'ALTER TABLE {}.{} ADD {} {};'.format(dbName,tableName,columnName,dataType)
+        query = 'ALTER TABLE {}.{} ADD COLUMN {} {};'.format(dbName,tableName,columnName,dataType)
         client.execute(query)
         print("Table column is added successfully")
 
-    
+
+
+
+#obj = ClickhouseClient("10.0.0.30")
+
+#print(obj.selectData('twitter','test'))
+
+#obj.createTable("twitter","test")
+
+#obj.insertData("twitter","test","121212","anushan","1212121","Hello world")
+
+#obj.addColumn("twitter","test","score","Float64")
+
+
 
