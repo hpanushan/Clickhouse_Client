@@ -39,15 +39,15 @@ class ClickhouseClient:
         # Drop the table if table name already exists
         self.dropTable(dbName,tableName)
         # Create the table
-        query = 'CREATE TABLE {}.{} (date Date DEFAULT today(), user_id String, user_name String, text_id String, text String) ENGINE = TinyLog;'.format(dbName,tableName)
+        query = 'CREATE TABLE {}.{} (date Date DEFAULT today(), date_time String, user_id String, user_name String, text_id String, text String, score Float32, magnitude Float32) ENGINE = MergeTree(date, (date), 8192);'.format(dbName,tableName)
         client.execute(query)
         print("Table is created successfully")
 
-    def insertData(self,dbName,tableName,userID,userName,textID,text):
+    def insertData(self,dbName,tableName,dateTime,userID,userName,textID,text):
         # Inserting the data into the table
         client = Client(self.ipAddress)
-        query = 'INSERT INTO {}.{} (user_id,user_name,text_id,text) VALUES'.format(dbName,tableName)
-        client.execute(query,[{'user_id':userID,'user_name':userName,'text_id':textID,'text':text}])
+        query = 'INSERT INTO {}.{} (date_time,user_id,user_name,text_id,text) VALUES'.format(dbName,tableName)
+        client.execute(query,[{'date_time':dateTime,'user_id':userID,'user_name':userName,'text_id':textID,'text':text}])
         print('Record is added successfully')
 
     def selectData(self,dbName,tableName):
