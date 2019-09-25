@@ -39,7 +39,7 @@ class ClickhouseClient:
         # Drop the table if table name already exists
         self.dropTable(dbName,tableName)
         # Create the table
-        query = 'CREATE TABLE {}.{} (date Date DEFAULT today(), date_time String, user_id String, user_name String, text_id String, text String, score Float32, magnitude Float32) ENGINE = MergeTree(date, (date), 8192);'.format(dbName,tableName)
+        query = 'CREATE TABLE {}.{} (date Date DEFAULT today(), date_time String, user_id UInt64, user_name String, text_id UInt64, text String, score Float32, magnitude Float32) ENGINE = MergeTree(date, (date), 8192);'.format(dbName,tableName)
         client.execute(query)
         print("Table is created successfully")
 
