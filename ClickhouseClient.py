@@ -64,6 +64,14 @@ class ClickhouseClient:
         print("Table is dropped successfully")
 
     # Additional Functions
+    def dropAllTables(self,dbName):
+        # Drop all all tables from database
+        client = Client(self.ipAddress)
+        # Drop current database
+        self.dropDatabase(dbName)
+        # Create a new database
+        self.createDatabase(dbName)
+
     def addColumn(self,dbName,tableName,columnName,dataType):
         # Add column to existing table
         client = Client(self.ipAddress)
