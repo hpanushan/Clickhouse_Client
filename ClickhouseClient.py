@@ -79,10 +79,25 @@ class ClickhouseClient:
         client.execute(query)
         print("Table column is added successfully")
 
+    def updateColumn(self,dbName,tableName,updateColumnName,updateColumnValue,whereColumnName,whereColumnValue):
+        # Update column value
+        client = Client(self.ipAddress)
+        query = "ALTER TABLE {}.{} UPDATE {}={} WHERE {}={};".format(dbName,tableName,updateColumnName,updateColumnValue,whereColumnName,whereColumnValue)
+        client.execute(query)
+        print("Record is modified successfully")
 
-
+    def selectColumn(self,dbName,tableName,columnName):
+        # Read a column
+        client = Client(self.ipAddress)
+        query = 'SELECT {} FROM {}.{};'.format(columnName,dbName,tableName)
+        return client.execute(query)
 
 #obj = ClickhouseClient("10.0.0.30")
+
+#print(obj.selectColumn("facebook","F_102699651071355_105714230769897_20190501_20191231","score"))
+
+#obj.updateColumn("facebook","F_102699651071355_105714230769897_20190501_20191231","type",34,"score",0.699999988079071)
+#obj.addColumn("facebook","F_102699651071355_105714230769897_20190501_20191231","type","UInt64")
 
 #print(obj.selectData('twitter','test'))
 
@@ -92,5 +107,6 @@ class ClickhouseClient:
 
 #obj.addColumn("twitter","test","score","Float64")
 
+obj.selectData("facebook","F_102699651071355_105714230769897_20190501_20191231")
 
 
