@@ -92,6 +92,13 @@ class ClickhouseClient:
         query = 'SELECT {} FROM {}.{};'.format(columnName,dbName,tableName)
         return client.execute(query)
 
+    def moveTable(self,dbName1,dbName2,tableName):
+        # Move a table from one schema to another
+        client = Client(self.ipAddress)
+        query = 'RENAME TABLE {}.{} TO {}.{};'.format(dbName1,tableName,dbName2,tableName)
+        client.execute(query)
+        print("Table is moved")
+
 #obj = ClickhouseClient("10.0.0.30")
 
 #print(obj.selectColumn("facebook","F_102699651071355_105714230769897_20190501_20191231","score"))
@@ -107,6 +114,6 @@ class ClickhouseClient:
 
 #obj.addColumn("twitter","test","score","Float64")
 
-obj.selectData("facebook","F_102699651071355_105714230769897_20190501_20191231")
+#obj.selectData("facebook","F_102699651071355_105714230769897_20190501_20191231")
 
 
